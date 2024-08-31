@@ -44,5 +44,5 @@ GET https://subs.wyzie.ru/search?id=tt1877830&format=srt  // Fetching subtitles 
 ```
 
 <sup>
-  P.S. The reason the initial commit is so large is because I had to upload the entire project to this account from the sussy-code organization. I had to do this because the main website is hosted on private repository with a huge proxies.json file instead of env vars.
+  P.S. The reason the initial commit is so large is because I had to upload the entire project to this account from the sussy-code organization. I had to do this because the main website is hosted on private repository with a huge proxies.json file instead of env vars. This repo is also out of date with the main production one.
 </sup>
