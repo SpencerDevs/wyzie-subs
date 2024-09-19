@@ -14,6 +14,13 @@
 - **Open-Source**: The API is open-source and you can host it yourself if you want to.
   
 ### Usage Example
+
+**Required Environment Variable**: you need to set the `PROXIES` environment variable to your CORS proxies urls.
+
+```
+PROXIES=https://torn-unicorn.fly.dev,https://proxy.wyzie.ru
+```
+
 Please note: the `id` url parameter can be used interchangable with either a TMDB ID or an IMDB ID. It checks for "tt" to determine if it's an IMDB ID or not. Using a TMDB ID is slower as we have to request the IMDB ID from TMDB first.
 <sup>
   All parameters work with both TMDB and IMDB IDs, aswell as shows and movies.

@@ -10,21 +10,11 @@ export default [
   ...tseslint.configs.recommended,
   {plugins: { import: importPlugin }},
   {rules: {
-    "no-underscore-dangle": "off",
-    "@typescript-eslint/no-explicit-any": "off",
-    "no-console": "off",
-    "@typescript-eslint/no-this-alias": "off",
-    "@typescript-eslint/no-empty-function": "off",
-    "no-shadow": "off",
-    "@typescript-eslint/no-shadow": ["error"],
-    "no-restricted-syntax": "off",
-    "consistent-return": "off",
-    "no-continue": "off",
-    "no-eval": "off",
-    "no-await-in-loop": "off",
-    "no-nested-ternary": "off",
-    "prefer-destructuring": "off",
     "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
-    "import/extensions": ["error"]
+    "import/extensions": ["error"],
+    "indent": ["error", 2], // Enforce 2 spaces for indentation
+    "keyword-spacing": ["error", { "before": true, "after": true }], // Ensure spacing around keywords
+    "space-infix-ops": ["error", { "int32Hint": false }], // Ensure spacing around infix operators
+    "semi": ["error", "always"] // Enforce semicolons at the end of statements
   }},
 ];

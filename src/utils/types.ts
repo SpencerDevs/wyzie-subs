@@ -10,8 +10,9 @@ export interface RequestType {
 export interface ResponseType {
   id: string;
   url: string;
+  flagUrl: string;
   type: string; // subtitle format (srt, ass, vtt)
   display: string; // Full lang (ex: English)
   language: string; // ISO639 locale
-  hasCorsRestrictions: boolean;
+  isHearingImpaired: boolean;
 }
