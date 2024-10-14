@@ -1,92 +1,60 @@
-import {
-  H3Event,
-  Duplex,
-  ProxyOptions,
-  getProxyRequestHeaders,
-  RequestHeaders,
-} from 'h3';
+export const getValidProxy = defineCachedFunction(
+  async () => {
+    try {
+      const data = await useStorage("assets:server").getItem("proxies.json");
+      const parsedData = typeof data === "string" ? JSON.parse(data) : data;
+      const randomIndex = Math.floor(Math.random() * parsedData.proxies.length);
+      return parsedData.proxies[randomIndex];
+    } catch (error) {
+      console.error("Error getting valid proxy:", error);
+      throw error;
+    }
+  },
+  { maxAge: 5 }, // Cache results for 5 seconds
+);
 
-const PayloadMethods = new Set(['PATCH', 'POST', 'PUT', 'DELETE']);
+export async function proxyFetch(
+  url: string,
+  options?: RequestInit,
+  retryCount: number = 8,
+): Promise<Response> {
+  const defaultHeaders = {
+    Referer: "",
+    Origin: "",
+  };
 
-export interface ExtraProxyOptions {
-  blacklistedHeaders?: string[];
-}
+  try {
+    const proxy = await getValidProxy();
+    const proxyUrl = new URL(proxy);
+    proxyUrl.searchParams.set("destination", url);
+    const proxyOptions = {
+      ...options,
+      headers: {
+        ...defaultHeaders,
+        ...options?.headers,
+        "Proxy-Authorization": `Basic ${btoa(proxy)}`,
+      },
+    };
 
-function mergeHeaders(
-  defaults: HeadersInit,
-  ...inputs: (HeadersInit | RequestHeaders | undefined)[]
-) {
-  const _inputs = inputs.filter(Boolean) as HeadersInit[];
-  if (_inputs.length === 0) {
-    return defaults;
-  }
-  const merged = new Headers(defaults);
-  for (const input of _inputs) {
-    if (input.entries) {
-      for (const [key, value] of (input.entries as any)()) {
-        if (value !== undefined) {
-          merged.set(key, value);
-        }
-      }
-    } else {
-      for (const [key, value] of Object.entries(input)) {
-        if (value !== undefined) {
-          merged.set(key, value);
-        }
+    const res = await fetch(proxyUrl.toString(), proxyOptions);
+    const text = await res.text();
+
+    if (res.status === 429 || text.includes("429 Too Many Requests")) {
+      if (retryCount > 0) {
+        console.log(`Ratelimited. Retrying with a new proxy... #${retryCount}`);
+        return proxyFetch(url, options, retryCount - 1);
+      } else {
+        throw new Error("Failed to fetch after multiple retries due to 429 Too Many Requests.");
       }
     }
-  }
-  return merged;
-}
 
-export async function specificProxyRequest(
-  event: H3Event,
-  target: string,
-  opts: ProxyOptions & ExtraProxyOptions = {},
-) {
-  let body;
-  let duplex: Duplex | undefined;
-  if (PayloadMethods.has(event.method)) {
-    if (opts.streamRequest) {
-      body = getRequestWebStream(event);
-      duplex = 'half';
-    } else {
-      body = await readRawBody(event, false).catch(() => undefined);
-    }
-  }
-
-  const method = opts.fetchOptions?.method || event.method;
-  const oldHeaders = getProxyRequestHeaders(event);
-  opts.blacklistedHeaders?.forEach((header) => {
-    const keys = Object.keys(oldHeaders).filter(
-      (v) => v.toLowerCase() === header.toLowerCase(),
-    );
-    keys.forEach((k) => delete oldHeaders[k]);
-  });
-
-  const fetchHeaders = mergeHeaders(
-    oldHeaders,
-    opts.fetchOptions?.headers,
-    opts.headers,
-  );
-  const headerObj = Object.fromEntries([...(fetchHeaders.entries as any)()]);
-  if (process.env.REQ_DEBUG === 'true') {
-    console.log({
-      type: 'request',
-      method,
-      url: target,
-      headers: headerObj,
+    return new Response(text, {
+      status: res.status,
+      statusText: res.statusText,
+      headers: res.headers,
     });
+  } catch (error) {
+    console.error("Error in proxyFetch:", error);
+    throw error;
   }
-
-  return sendProxy(event, target, {
-    ...opts,
-    fetchOptions: {
-      method,
-      body,
-      duplex,
-      ...opts.fetchOptions,
-      headers: fetchHeaders,
-    },
-  });
 }
