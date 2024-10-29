@@ -3,7 +3,7 @@ import { H3Event } from "h3";
 export const fetchSubtitles = defineCachedFunction(
   async (event: H3Event, request: RequestType) => {
     const { imdbId, season, episode } = request;
-    const url = `https://rest.opensubtitles.org/search/imdbid-${imdbId}${season ? `/season-${season}` : ""}${season && episode ? `/episode-${episode}` : ""}`;
+    const url = `https://rest.opensubtitles.org/search/imdbid-${imdbId.slice(2)}${season ? `/season-${season}` : ""}${season && episode ? `/episode-${episode}` : ""}`;
     const headers = { "X-User-Agent": "VLSub 0.10.2" };
     const res = await proxyFetch(url, { headers });
     const text = await res.text();
