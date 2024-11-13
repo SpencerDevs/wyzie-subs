@@ -1,11 +1,14 @@
+/** @format */
+
 import { RequestType, ResponseType } from "@/utils/types";
-import { languageToCountryCode } from "./lookup";
+import { languageToCountryCode } from "./lookup"; // This has to be ./ or it wont work for some reason
 import { H3Event } from "h3";
 
 export async function search(
   event: H3Event,
   request: RequestType,
   languages?: string[],
+  hearingImpaired?: boolean,
 ): Promise<ResponseType[]> {
   try {
     if (!request.imdbId) {
@@ -24,29 +27,35 @@ export async function search(
 
     const data = await fetchSubtitles(event, safeRequest);
 
-    const subtitles: ResponseType[] = [];
-    for (const sub of data) {
-      const languageMatch = !languages || languages.length === 0 || languages.includes(sub.ISO639);
-      const formatMatch =
-        !request.format || sub.SubFormat.toLowerCase() === request.format.toLowerCase();
-      if (languageMatch && formatMatch) {
-        const countryCode = languageToCountryCode[sub.ISO639] || sub.ISO639.toUpperCase();
-        subtitles.push({
-          id: sub.IDSubtitleFile,
-          url: sub.SubDownloadLink.replace(".gz", "").replace(
-            "download/",
-            "download/subencoding-utf8/",
-          ),
-          flagUrl: `https://flagsapi.com/${countryCode}/flat/24.png`,
-          type: sub.SubFormat,
-          display: sub.LanguageName,
-          language: sub.ISO639,
-          isHearingImpaired: sub.SubHearingImpaired === "1" ? true : false,
-        });
-      }
-    }
+    const subtitles: ResponseType[] = await Promise.all(
+      data.map(async (sub) => {
+        const hearingImpairedMatch = !hearingImpaired || sub.SubHearingImpaired === "1";
+        const languageMatch =
+          !languages || languages.length === 0 || languages.includes(sub.ISO639);
+        const formatMatch =
+          !request.format || sub.SubFormat.toLowerCase() === request.format.toLowerCase();
+        if (languageMatch && formatMatch && hearingImpairedMatch) {
+          const countryCode = languageToCountryCode[sub.ISO639] || sub.ISO639.toUpperCase();
+          return {
+            id: sub.IDSubtitleFile,
+            url: sub.SubDownloadLink.replace(".gz", "").replace(
+              "download/",
+              "download/subencoding-utf8/",
+            ),
+            // There is no PB flag, so we use BR instead
+            flagUrl: `https://flagsapi.com/${countryCode === "PB" ? "BR" : countryCode}/flat/24.png`,
+            format: sub.SubFormat,
+            display: sub.LanguageName,
+            language: sub.ISO639,
+            media: sub.MovieName,
+            isHearingImpaired: sub.SubHearingImpaired === "1",
+          };
+        }
+        return null;
+      }),
+    );
 
-    return subtitles;
+    return subtitles.filter((sub) => sub !== null);
   } catch (error) {
     throw new Error("Error in search function:", error);
   }

@@ -1,3 +1,5 @@
+/** @format */
+
 export default eventHandler(() => {
   const html = `
 <!DOCTYPE html>
@@ -13,10 +15,10 @@ export default eventHandler(() => {
     <meta property="og:title" content="Wyzie Subs - Subtitles API" />
     <meta property="og:description" content="A powerful subtitle scraping API for anything. <3" />
     <meta property="og:image" content="https://i.postimg.cc/L5ppKYC5/cclogo.png" alt="Wyzie Subs Logo" />
-    <meta property="og:url" content="https://subs.wyzie.ru" />
+    <meta property="og:url" content="https://sub.wyzie.ru" />
     <meta property="og:type" content="website" />
     <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://subs.wyzie.ru" />
+    <link rel="canonical" href="https://sub.wyzie.ru" />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="Wyzie Subs - Subtitles API" />
     <meta name="twitter:description" content="A powerful subtitle scraping API for anything. <3" />
@@ -30,11 +32,11 @@ export default eventHandler(() => {
         "@context": "http://schema.org",
         "@type": "WebSite",
         "name": "Wyzie Subs",
-        "url": "https://subs.wyzie.ru",
+        "url": "https://sub.wyzie.ru",
         "logo": "https://i.postimg.cc/L5ppKYC5/cclogo.png",
         "potentialAction": {
           "@type": "SearchAction",
-          "target": "https://subs.wyzie.ru/search?q={search_term_string}",
+          "target": "https://sub.wyzie.ru/search?q={search_term_string}",
           "query-input": "required name=search_term_string"
         }
       }
@@ -49,6 +51,8 @@ export default eventHandler(() => {
         "/search?id=1422&season=2&episode=4",
         "/search?id=126506&season=1&episode=3&language=en",
         "/search?id=tt0264464",
+        "/search?id=2288&season=1&episode=3&hi=true",
+        "/search?id=533535&hi=true",
         "/search?id=2567",
       ];
 
@@ -64,7 +68,7 @@ export default eventHandler(() => {
           extend: {
             colors: {
               primary: { "50": "#eff6ff", "100": "#dbeafe", "200": "#bfdbfe", "300": "#93c5fd", "400": "#60a5fa", "500": "#3b82f6", "600": "#2563eb", "700": "#1d4ed8" },
-              mono: { background: "#0c0c0c", card: "#111", accent: "#1a1a1a" },
+              mono: { background: "#0b0b0b", card: "#111", accent: "#181818" },
               type: { emphasized: "#e0e0e0", subheader: "#d0d0d0", dimmed: "#c0c0c0", footer: "#6b7280" },
             },
           },
@@ -74,9 +78,9 @@ export default eventHandler(() => {
   </head>
 
   <body class="bg-mono-background min-h-screen flex flex-col items-center justify-center p-4 cursor-default">
-    <div class="bg-mono-card rounded-lg shadow-2xl p-8 max-w-xl w-full">
+    <div class="bg-mono-card rounded-lg shadow-xl py-6 px-8 max-w-xl w-full">
       <header class="flex items-center justify-between mb-4">
-        <h1 class="text-4xl font-bold text-primary-700">Wyzie <span class="text-type-emphasized">Subs</span></h1>
+        <h1 class="text-4xl font-bold text-primary-700"><a class="hover:underline" href="https://wyzie.ru" alt="Toolset homepage" title="Toolset Homepage">Wyzie</a> <span class="text-type-emphasized">Subs</span></h1>
         <div class="group w-10 h-auto shadow-md transition-shadow duration-500 hover:shadow-xl">
           <a href="/" title="Home" alt="Home">
             <img src="https://i.postimg.cc/L5ppKYC5/cclogo.png" class="w-full h-auto transition-transform duration-300 group-hover:scale-110" alt="Wyzie Subs logo" />
@@ -109,7 +113,10 @@ export default eventHandler(() => {
         <section>
           <div class="space-y-4 mb-6">
             <div class="bg-mono-accent shadow-xl p-4 rounded-md flex flex-col gap-1">
-              <h3 class="font-semibold text-type-subheader">Search by IMDB / TMDB ID</h3>
+              <div class="flex flex-row gap-1 items-center">
+                <h3 class="font-semibold text-type-subheader">Search by IMDB / TMDB ID</h3>
+                <svg class="text-type-dimmed w-4 h-4 mb-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-icon lucide lucide-circle-alert text-type-dimmed w-4 h-4 mb-3 -ml-1"><circle cx="12" cy="12" r="10"></circle><line x1="12" x2="12" y1="8" y2="12"></line><line x1="12" x2="12.01" y1="16" y2="16"></line></svg>
+              </div>
               <div class="flex flex-row gap-1">
                 <a href="/search?id=tt3659388" alt="Example link: search by IMDB ID" title="Search by IMDB ID">
                   <code class="text-sm text-primary-500 hover:text-primary-600 transition duration-100 break-words">/search?id=tt3659388</code>
@@ -140,19 +147,25 @@ export default eventHandler(() => {
                 <code class="text-sm text-primary-500 hover:text-primary-600 transition duration-100 break-words">/search?id=tt0121955&format=srt</code>
               </a>
             </div>
+            <div class="bg-mono-accent shadow-xl p-4 rounded-md flex flex-col gap-1">
+              <h3 class="font-semibold text-type-subheader">Search by hearing impaired</h3>
+              <a href="/search?id=tt0121955&hi=true" alt="Example link: search by hearing impaired" title="Search by hearing impaired">
+                <code class="text-sm text-primary-500 hover:text-primary-600 transition duration-100 break-words">/search?id=tt0121955&hi=true</code>
+              </a>
+            </div>
           </div>
         </section>
 
         <section>
           <a onclick="redirectToRandomLink()" class="flex justify-center" alt="Example check it out button" title="Example requests">
-            <button name="Example request" class="text-type-emphasized shadow-lg text-lg w-5/6 py-1 rounded bg-primary-700 hover:scale-105 transition duration-100">
+            <button name="Example request" class="text-type-emphasized shadow-lg text-lg w-5/6 py-1 rounded bg-primary-700 hover:scale-105 hover:bg-primary-700/90 duration-150">
               Check it out
             </button>
           </a>
-          <div class="flex justify-between text-xs text-type-footer mt-6 -mb-4">
+          <div class="flex justify-between text-xs text-type-footer mt-8">
             <p class="text-left">Made with <a href="https://nitro.unjs.io" class="text-primary-500 hover:text-primary-600 transition duration-100 underline" alt="Nitro framework" title="Nitro framework">Nitro</a></p>
             <p class="text-right">
-              Version: 5.1
+              Version: 5.7
             </p>
           </div>
         </section>
@@ -168,7 +181,7 @@ export default eventHandler(() => {
             />
           </svg>
         </a>
-        <a href="https://x.com/lilmancoop420" class="hover:text-primary-600 text-dark transition duration-100" alt="Twitter link" title="Twitter">
+        <a href="https://x.com/sudoflix" class="hover:text-primary-600 text-dark transition duration-100" alt="Twitter link" title="Twitter">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-5 h-5 fill-current" alt="Twitter SVG">
             <!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
             <path

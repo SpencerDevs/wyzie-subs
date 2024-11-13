@@ -1,3 +1,5 @@
+/** @format */
+
 export const languageToCountryCode: { [key: string]: string } = {
   af: "ZA", // Afrikaans
   ar: "SA", // Arabic

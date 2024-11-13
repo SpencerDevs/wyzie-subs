@@ -1,3 +1,5 @@
+/** @format */
+
 export default eventHandler(() => {
   const html = `
 <!DOCTYPE html>
@@ -13,10 +15,10 @@ export default eventHandler(() => {
     <meta property="og:title" content="Wyzie Subs - FAQ" />
     <meta property="og:description" content="A powerful subtitle scraping API for anything. <3" />
     <meta property="og:image" content="https://i.postimg.cc/L5ppKYC5/cclogo.png" alt="Wyzie Subs Logo" />
-    <meta property="og:url" content="https://subs.wyzie.ru" />
+    <meta property="og:url" content="https://sub.wyzie.ru" />
     <meta property="og:type" content="website" />
     <meta name="robots" content="index, follow" />
-    <link rel="canonical" href="https://subs.wyzie.ru" />
+    <link rel="canonical" href="https://sub.wyzie.ru" />
     <meta name="twitter:card" content="summary" />
     <meta name="twitter:title" content="Wyzie Subs - FAQ" />
     <meta name="twitter:description" content="A powerful subtitle scraping API for anything. <3" />
@@ -30,11 +32,11 @@ export default eventHandler(() => {
         "@context": "http://schema.org",
         "@type": "WebSite",
         "name": "Wyzie Subs",
-        "url": "https://subs.wyzie.ru",
+        "url": "https://sub.wyzie.ru",
         "logo": "https://i.postimg.cc/L5ppKYC5/cclogo.png",
         "potentialAction": {
           "@type": "SearchAction",
-          "target": "https://subs.wyzie.ru/search?q={search_term_string}",
+          "target": "https://sub.wyzie.ru/search?q={search_term_string}",
           "query-input": "required name=search_term_string"
         }
       }
@@ -46,7 +48,7 @@ export default eventHandler(() => {
           extend: {
             colors: {
               primary: { "50": "#eff6ff", "100": "#dbeafe", "200": "#bfdbfe", "300": "#93c5fd", "400": "#60a5fa", "500": "#3b82f6", "600": "#2563eb", "700": "#1d4ed8" },
-              mono: { background: "#0c0c0c", card: "#111", accent: "#1a1a1a" },
+              mono: { background: "#0b0b0b", card: "#111", accent: "#181818" },
               type: { emphasized: "#e0e0e0", subheader: "#d0d0d0", dimmed: "#c0c0c0", footer: "#6b7280" },
             },
           },
@@ -56,9 +58,9 @@ export default eventHandler(() => {
   </head>
 
   <body class="bg-mono-background min-h-screen flex flex-col items-center justify-center p-4 cursor-default">
-    <div class="bg-mono-card rounded-lg shadow-2xl p-8 max-w-xl w-full">
+    <div class="bg-mono-card rounded-lg shadow-xl py-6 px-8 max-w-xl w-full">
       <header class="flex items-center justify-between mb-5">
-        <h1 class="text-4xl font-bold text-primary-700">Wyzie <span class="text-type-emphasized">FAQ</span></h1>
+        <h1 class="text-4xl font-bold text-primary-700"><a class="hover:underline" href="https://wyzie.ru" alt="Toolset homepage" title="Toolset Homepage">Wyzie</a> <span class="text-type-emphasized">FAQ</span></h1>
         <div class="group w-10 h-auto shadow-md transition-shadow duration-500 hover:shadow-xl">
           <a href="/" title="Home" alt="Home">
             <img src="https://i.postimg.cc/L5ppKYC5/cclogo.png" class="w-full h-auto transition-transform duration-300 group-hover:scale-110" alt="Wyzie Subs logo" />
@@ -106,7 +108,7 @@ export default eventHandler(() => {
         </div>
       </div>
       <section>
-        <div class="flex justify-between text-s text-type-footer mt-6 -mb-4">
+        <div class="flex justify-between text-s text-type-footer mt-6">
           <p class="text-left">
             <a href="/" class="text-primary-500 hover:text-primary-600 transition duration-100" alt="Back" title="Back">← Back</a>
           </p>

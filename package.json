@@ -5,22 +5,17 @@
     "dev": "nitro dev",
     "lint": "eslint src",
     "lint:fix": "eslint --fix src",
-    "format": "prettier --log-level warn --write \"src/**/*.{tsx,ts}\"",
+    "format": "prettier --log-level warn --write \"src/**/*.{ts,json}\"",
     "build:cloudflare": "NITRO_PRESET=cloudflare npm run build",
     "prepare": "nitro prepare",
     "preview": "node .output/server/index.mjs"
   },
   "devDependencies": {
-    "@eslint/js": "^9.10.0",
-    "eslint": "^9.10.0",
-    "eslint-plugin-import": "^2.30.0",
-    "globals": "^15.9.0",
     "nitropack": "latest",
-    "prettier": "3.3.3",
-    "typescript-eslint": "^7.18.0"
+    "prettier": "3.3.3"
   },
   "dependencies": {
-    "h3": "^1.12.0",
-    "nitropack": "^2.9.7"
+    "h3": "^1.13.0",
+    "nitropack": "^2.10.4"
   }
 }

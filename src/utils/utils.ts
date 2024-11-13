@@ -1,53 +1,50 @@
+/** @format */
+
 import { H3Event } from "h3";
 
 export const fetchSubtitles = defineCachedFunction(
   async (event: H3Event, request: RequestType) => {
     const { imdbId, season, episode } = request;
-    const url = `https://rest.opensubtitles.org/search/imdbid-${imdbId.slice(2)}${season ? `/season-${season}` : ""}${season && episode ? `/episode-${episode}` : ""}`;
-    const headers = { "X-User-Agent": "VLSub 0.10.2" };
+    const url = `https://rest.opensubtitles.org/search/${
+      season && episode ? `episode-${episode}/` : ""
+    }imdbid-${imdbId.slice(2)}${season && episode ? `/season-${season}` : ""}`;
+    const headers = {
+      "Content-Type": "application/json",
+      "X-User-Agent": "VLSub 0.10.3",
+    };
     const res = await proxyFetch(url, { headers });
     const text = await res.text();
 
     try {
-      const data = JSON.parse(text);
-      return data;
+      return parseSubtitles(text);
     } catch (jsonError) {
-      console.error("Failed to parse JSON:", text);
-      return createErrorResponse(
-        500,
-        "JSON Parsing Error",
-        "Failed to parse JSON response from OpenSubtitles API. Please try again.",
-      );
+      console.error(`Failed to parse JSON: ${jsonError}`, text);
     }
   },
-  { maxAge: 60 * 60 * 24 * 3 }, // Cache results for 3 days
+  { maxAge: 60 * 60 * 24 * 7 }, // 1 week
 );
 
 export const convertTmdbToImdb = defineCachedFunction(
   async (event: H3Event, tmdbId: string, mediaType: "movie" | "tv" = "movie") => {
-    const apiKeys = ["5b9790d9305dca8713b9a0afad42ea8d", "9867f3f6a5e78a2639afb0e2ffc0a311"];
-    const randomIndex = Math.floor(Math.random() * apiKeys.length);
-    const TmdbApiKey = apiKeys[randomIndex];
-    const url = `https://api.themoviedb.org/3/${mediaType}/${tmdbId}/external_ids?api_key=${TmdbApiKey}`;
+    const url = `https://api.themoviedb.org/3/${mediaType}/${tmdbId}/external_ids?api_key=9867f3f6a5e78a2639afb0e2ffc0a311`;
 
     try {
       const response = await fetch(url);
       if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response}`);
+        throw new Error(`HTTP error! status: ${response.status}`);
       }
       const data = await response.json();
 
-      if (data && data.imdb_id) {
-        return data.imdb_id;
-      } else {
-        throw new Error(`IMDB ID not found in the TMDB API response. ${data}`);
+      if (!data.imdb_id) {
+        console.warn(`No IMDB ID found for TMDB ID: ${tmdbId}`);
       }
+
+      return data.imdb_id || null;
     } catch (error) {
-      if (error instanceof Error) {
-        console.error("Fetch error:", error.message);
-      } else {
-        console.error("Error converting TMDB to IMDB:", error);
-      }
+      console.error(
+        "Error converting TMDB to IMDB:",
+        error instanceof Error ? error.message : error,
+      );
 
       return createErrorResponse(
         500,
@@ -56,7 +53,7 @@ export const convertTmdbToImdb = defineCachedFunction(
       );
     }
   },
-  { maxAge: 60 * 60 * 24 * 7 }, // Cache results for a week
+  { maxAge: 60 * 60 * 24 * 7 * 3 }, // 3 weeks
 );
 
 export const createErrorResponse = (
@@ -65,7 +62,6 @@ export const createErrorResponse = (
   details: string,
   example?: string,
 ) => ({
-  status: "error",
   code,
   message,
   details,
