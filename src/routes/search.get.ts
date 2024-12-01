@@ -1,5 +1,9 @@
 /** @format */
 
+import { createErrorResponse, convertTmdbToImdb } from "~/utils/utils";
+import { RequestType } from "~/utils/types";
+import { search } from "~/utils/function";
+
 export default defineEventHandler(async (event) => {
   const query = getQuery(event);
   if (!query || !query.id) {
@@ -28,7 +32,7 @@ export default defineEventHandler(async (event) => {
 
   if (tmdbId) {
     const mediaType = season !== undefined ? "tv" : "movie";
-    imdbId = await convertTmdbToImdb(event, tmdbId, mediaType);
+    imdbId = await convertTmdbToImdb(tmdbId, mediaType);
   }
 
   if (!imdbId) {
@@ -62,7 +66,7 @@ export default defineEventHandler(async (event) => {
   try {
     const languages = language ? language.split(",") : undefined;
     const startTime = Date.now();
-    const data = await search(event, request, languages, hearingImpaired);
+    const data = await search(request, languages, hearingImpaired);
     const endTime = Date.now();
     const execTime = endTime - startTime;
     console.log(`Execution time: ${execTime}ms`);

@@ -1,11 +1,10 @@
 /** @format */
 
-import { RequestType, ResponseType } from "@/utils/types";
-import { languageToCountryCode } from "./lookup"; // This has to be ./ or it wont work for some reason
-import { H3Event } from "h3";
+import { convertTmdbToImdb, fetchSubtitles } from "~/utils/utils";
+import { RequestType, ResponseType } from "~/utils/types";
+import { languageToCountryCode } from "~/utils/lookup";
 
 export async function search(
-  event: H3Event,
   request: RequestType,
   languages?: string[],
   hearingImpaired?: boolean,
@@ -14,7 +13,7 @@ export async function search(
     if (!request.imdbId) {
       if (request.tmdbId) {
         const mediaType = request.season !== undefined ? "tv" : "movie";
-        request.imdbId = await convertTmdbToImdb(event, request.tmdbId, mediaType);
+        request.imdbId = await convertTmdbToImdb(request.tmdbId, mediaType);
       } else {
         throw new Error("imdbId is required");
       }
@@ -25,7 +24,7 @@ export async function search(
       imdbId: request.imdbId as string,
     };
 
-    const data = await fetchSubtitles(event, safeRequest);
+    const data = await fetchSubtitles(safeRequest);
 
     const subtitles: ResponseType[] = await Promise.all(
       data.map(async (sub) => {

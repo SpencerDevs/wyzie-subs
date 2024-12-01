@@ -70,6 +70,12 @@ export default eventHandler(() => {
 
       <div class="space-y-4 mb-3">
         <div class="bg-mono-accent shadow-xl p-4 rounded-md flex flex-col gap-1">
+          <h3 class="font-semibold text-type-subheader">How can I contact the dev?</h3>
+          <p class="text-type-dimmed text-sm">
+            I can be reached via email at <a href="mailto:dev@wyzie.ru" class="text-primary-500 hover:text-primary-600 transition duration-100" alt="Email" title="Email">dev@wyzie.ru</a> or via our community <a href="https://discord.gg/2mxraHBVtB" class="text-primary-500 hover:text-primary-600 transition duration-100" alt="Discord server" title="Discord server">Discord server</a>.
+          </p>
+        </div>
+        <div class="bg-mono-accent shadow-xl p-4 rounded-md flex flex-col gap-1">
           <h3 class="font-semibold text-type-subheader">Are there any restrictions?</h3>
           <p class="text-type-dimmed text-sm">
             Wyzie Subs has absolutely no restrictions, you can use it for anything you want. However much you want.
@@ -98,12 +104,6 @@ export default eventHandler(() => {
           <h3 class="font-semibold text-type-subheader">Will you guys do sketchy stuff with my info?</h3>
           <p class="text-type-dimmed text-sm">
             No. I pinky swear aside from cloudflare logs (for trouble shooting and health checks) nothing is stored.
-          </p>
-        </div>
-        <div class="bg-mono-accent shadow-xl p-4 rounded-md flex flex-col gap-1">
-          <h3 class="font-semibold text-type-subheader">Why is it kinda slow?</h3>
-          <p class="text-type-dimmed text-sm">
-            Well, we first have to get a valid proxy (which sometimes has to start up), if your using TMDB then we have to convert it to IMDB and then finally we get the subtitles. So use IMDB for the fastest results.
           </p>
         </div>
       </div>

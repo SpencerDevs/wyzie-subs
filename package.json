@@ -3,8 +3,6 @@
   "scripts": {
     "build": "nitro build",
     "dev": "nitro dev",
-    "lint": "eslint src",
-    "lint:fix": "eslint --fix src",
     "format": "prettier --log-level warn --write \"src/**/*.{ts,json}\"",
     "build:cloudflare": "NITRO_PRESET=cloudflare npm run build",
     "prepare": "nitro prepare",

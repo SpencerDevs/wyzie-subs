@@ -9,7 +9,7 @@ export default eventHandler(() => {
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Wyzie Subs - Subtitles API</title>
     <meta name="description" content="A powerful subtitle scraping API for anything. <3" />
-    <meta name="keywords" content="subtitles, subtitle scraper, API, movie subtitles, Wyzie Subs" />
+    <meta name="keywords" content="subtitles, subtitle scraper, API, movie subtitles, Wyzie Subs, open-subtitles scraper api, subtitles scraper api" />
     <meta name="author" content="BadDeveloper" />
     <link rel="icon" href="https://i.postimg.cc/L5ppKYC5/cclogo.png" alt="Wyzie Subs Logo" />
     <meta property="og:title" content="Wyzie Subs - Subtitles API" />
@@ -115,7 +115,23 @@ export default eventHandler(() => {
             <div class="bg-mono-accent shadow-xl p-4 rounded-md flex flex-col gap-1">
               <div class="flex flex-row gap-1 items-center">
                 <h3 class="font-semibold text-type-subheader">Search by IMDB / TMDB ID</h3>
-                <svg class="text-type-dimmed w-4 h-4 mb-2" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="lucide-icon lucide lucide-circle-alert text-type-dimmed w-4 h-4 mb-3 -ml-1"><circle cx="12" cy="12" r="10"></circle><line x1="12" x2="12" y1="8" y2="12"></line><line x1="12" x2="12.01" y1="16" y2="16"></line></svg>
+                <svg
+                  class="text-type-dimmed w-4 h-4 mb-2"
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="lucide-icon lucide lucide-circle-alert text-type-dimmed w-4 h-4 mb-3 -ml-1"
+                >
+                  <circle cx="12" cy="12" r="10"></circle>
+                  <line x1="12" x2="12" y1="8" y2="12"></line>
+                  <line x1="12" x2="12.01" y1="16" y2="16"></line>
+                </svg>
               </div>
               <div class="flex flex-row gap-1">
                 <a href="/search?id=tt3659388" alt="Example link: search by IMDB ID" title="Search by IMDB ID">
@@ -165,7 +181,7 @@ export default eventHandler(() => {
           <div class="flex justify-between text-xs text-type-footer mt-8">
             <p class="text-left">Made with <a href="https://nitro.unjs.io" class="text-primary-500 hover:text-primary-600 transition duration-100 underline" alt="Nitro framework" title="Nitro framework">Nitro</a></p>
             <p class="text-right">
-              Version: 5.7
+              Version: 5.8
             </p>
           </div>
         </section>
@@ -183,9 +199,15 @@ export default eventHandler(() => {
         </a>
         <a href="https://x.com/sudoflix" class="hover:text-primary-600 text-dark transition duration-100" alt="Twitter link" title="Twitter">
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" class="w-5 h-5 fill-current" alt="Twitter SVG">
-            <!--!Font Awesome Free 6.5.2 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free Copyright 2024 Fonticons, Inc.-->
             <path
               d="M459.4 151.7c.3 4.5 .3 9.1 .3 13.6 0 138.7-105.6 298.6-298.6 298.6-59.5 0-114.7-17.2-161.1-47.1 8.4 1 16.6 1.3 25.3 1.3 49.1 0 94.2-16.6 130.3-44.8-46.1-1-84.8-31.2-98.1-72.8 6.5 1 13 1.6 19.8 1.6 9.4 0 18.8-1.3 27.6-3.6-48.1-9.7-84.1-52-84.1-103v-1.3c14 7.8 30.2 12.7 47.4 13.3-28.3-18.8-46.8-51-46.8-87.4 0-19.5 5.2-37.4 14.3-53 51.7 63.7 129.3 105.3 216.4 109.8-1.6-7.8-2.6-15.9-2.6-24 0-57.8 46.8-104.9 104.9-104.9 30.2 0 57.5 12.7 76.7 33.1 23.7-4.5 46.5-13.3 66.6-25.3-7.8 24.4-24.4 44.8-46.1 57.8 21.1-2.3 41.6-8.1 60.4-16.2-14.3 20.8-32.2 39.3-52.6 54.3z"
+            />
+          </svg>
+        </a>
+        <a href="https://discord.gg/2mxraHBVtB" class="hover:text-primary-600 text-dark transition duration-100" alt="Discord link" title="Discord">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 512" class="w-5 h-5 fill-current" alt="Discord SVG">
+            <path
+              d="M524.5 69.8a1.5 1.5 0 0 0 -.8-.7A485.1 485.1 0 0 0 404.1 32a1.8 1.8 0 0 0 -1.9 .9 337.5 337.5 0 0 0 -14.9 30.6 447.8 447.8 0 0 0 -134.4 0 309.5 309.5 0 0 0 -15.1-30.6 1.9 1.9 0 0 0 -1.9-.9A483.7 483.7 0 0 0 116.1 69.1a1.7 1.7 0 0 0 -.8 .7C39.1 183.7 18.2 294.7 28.4 404.4a2 2 0 0 0 .8 1.4A487.7 487.7 0 0 0 176 479.9a1.9 1.9 0 0 0 2.1-.7A348.2 348.2 0 0 0 208.1 430.4a1.9 1.9 0 0 0 -1-2.6 321.2 321.2 0 0 1 -45.9-21.9 1.9 1.9 0 0 1 -.2-3.1c3.1-2.3 6.2-4.7 9.1-7.1a1.8 1.8 0 0 1 1.9-.3c96.2 43.9 200.4 43.9 295.5 0a1.8 1.8 0 0 1 1.9 .2c2.9 2.4 6 4.9 9.1 7.2a1.9 1.9 0 0 1 -.2 3.1 301.4 301.4 0 0 1 -45.9 21.8 1.9 1.9 0 0 0 -1 2.6 391.1 391.1 0 0 0 30 48.8 1.9 1.9 0 0 0 2.1 .7A486 486 0 0 0 610.7 405.7a1.9 1.9 0 0 0 .8-1.4C623.7 277.6 590.9 167.5 524.5 69.8zM222.5 337.6c-29 0-52.8-26.6-52.8-59.2S193.1 219.1 222.5 219.1c29.7 0 53.3 26.8 52.8 59.2C275.3 311 251.9 337.6 222.5 337.6zm195.4 0c-29 0-52.8-26.6-52.8-59.2S388.4 219.1 417.9 219.1c29.7 0 53.3 26.8 52.8 59.2C470.7 311 447.5 337.6 417.9 337.6z"
             />
           </svg>
         </a>

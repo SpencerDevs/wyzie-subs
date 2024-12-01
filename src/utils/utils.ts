@@ -1,9 +1,11 @@
 /** @format */
 
-import { H3Event } from "h3";
+import { parseSubtitles } from "~/utils/json";
+import { RequestType } from "~/utils/types";
+import { proxyFetch } from "~/utils/proxy";
 
 export const fetchSubtitles = defineCachedFunction(
-  async (event: H3Event, request: RequestType) => {
+  async (request: RequestType) => {
     const { imdbId, season, episode } = request;
     const url = `https://rest.opensubtitles.org/search/${
       season && episode ? `episode-${episode}/` : ""
@@ -21,11 +23,11 @@ export const fetchSubtitles = defineCachedFunction(
       console.error(`Failed to parse JSON: ${jsonError}`, text);
     }
   },
-  { maxAge: 60 * 60 * 24 * 7 }, // 1 week
+  { maxAge: 60 * 60 * 24 * 3 }, // 3 days
 );
 
 export const convertTmdbToImdb = defineCachedFunction(
-  async (event: H3Event, tmdbId: string, mediaType: "movie" | "tv" = "movie") => {
+  async (tmdbId: string, mediaType: "movie" | "tv" = "movie") => {
     const url = `https://api.themoviedb.org/3/${mediaType}/${tmdbId}/external_ids?api_key=9867f3f6a5e78a2639afb0e2ffc0a311`;
 
     try {
@@ -61,10 +63,18 @@ export const createErrorResponse = (
   message: string,
   details: string,
   example?: string,
-) => ({
-  code,
-  message,
-  details,
-  example,
-  fyi: "For more information, please visit our landing page or contact us at dev@wyzie.ru.",
-});
+) => {
+  const errorResponse = {
+    code,
+    message,
+    details,
+    example,
+  };
+
+  return new Response(JSON.stringify(errorResponse), {
+    status: code,
+    headers: {
+      "content-type": "application/json; charset=utf-8",
+    },
+  });
+};
